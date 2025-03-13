@@ -3,10 +3,8 @@ import jwt ,  { Secret, JwtPayload }  from "jsonwebtoken";
 
 import {JWT_SECRET} from "@repo/backend-common/config";
 
+import { CustomRequest } from "@repo/common/types";
 
-export interface CustomRequest extends Request {
-    userId: string | JwtPayload;
-}
 
 export const auth = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -17,7 +15,8 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
       }
    
       const decoded = jwt.verify(token, JWT_SECRET);
-      (req as CustomRequest).userId = decoded;
+      //@ts-ignore
+      (req as CustomRequest).userId = decoded.userId;
       
       next();
    

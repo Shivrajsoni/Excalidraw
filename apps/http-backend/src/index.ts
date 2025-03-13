@@ -1,13 +1,15 @@
 import express from "express";
 import { auth } from "./auth";
 import jwt from "jsonwebtoken";
-
+import { CustomRequest } from "@repo/common/types";
 import {JWT_SECRET} from "@repo/backend-common/config";
 import { CreateRoomSchema, CreateUserSchema, SigninSchema} from "@repo/common/types";
 
 import prisma from "@repo/db/client";
 
 const app = express();
+
+app.use(express.json());
 
 app.post('/signup',async(req,res)=>{
 
@@ -86,13 +88,14 @@ app.post('/room',auth,async(req,res)=>{
     return;
     }
 
-     // @ts-ignore: TODO: Fix this
-    const userId = req.userId;
-
+    // const userId = (req as unknown as CustomRequest).userId;
+    //@ts-ignore
+    const userId = (req as CustomRequest as string).userId;
+    console.log(userId);
     try {
         const room = await prisma.room.create({
             data: {
-                slug: parsedData.data.name,
+                slug: parsedData.data.slug,
                 adminId: userId
             }
         })
@@ -101,6 +104,7 @@ app.post('/room',auth,async(req,res)=>{
             roomId: room.id
         })
     } catch(e) {
+        console.log(e);
         res.status(411).json({
             message: "Room already exists with this name"
         })
