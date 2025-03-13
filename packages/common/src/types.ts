@@ -1,3 +1,4 @@
+import { JwtPayload } from "jsonwebtoken";
 import { z } from "zod";
 
 export const CreateUserSchema = z.object({
@@ -12,5 +13,9 @@ export const SigninSchema = z.object({
 })
 
 export const CreateRoomSchema = z.object({
-    name: z.string().min(3).max(20),
+    slug: z.string().min(3).max(20),
 })
+
+export interface CustomRequest extends Request {
+    userId: string | JwtPayload;
+}
