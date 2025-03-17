@@ -9,12 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@repo/db": "workspace:*",
+    "@repo/ui": "workspace:*",
+    "axios": "^1.8.3",
     "lucide-react": "^0.482.0",
     "next": "15.2.2",
+    "perfect-freehand": "^1.2.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "@repo/ui":"workspace:*",
-    "@repo/db":"workspace:*"
+    "roughjs": "^4.6.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -4,10 +4,13 @@ import jwt from "jsonwebtoken";
 import { CustomRequest } from "@repo/common/types";
 import {JWT_SECRET} from "@repo/backend-common/config";
 import { CreateRoomSchema, CreateUserSchema, SigninSchema} from "@repo/common/types";
+import cors from "cors";
 
 import prisma from "@repo/db/client";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
@@ -35,6 +38,7 @@ app.post('/signup',async(req,res)=>{
         res.json({
             userId: user.id
         })
+        console.log("Succesully User uploadded in Database");
     } catch(e) {
         res.status(411).json({
             message: "User already exists with this username"
